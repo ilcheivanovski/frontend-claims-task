@@ -15,12 +15,6 @@ const Table = styled.div`
   column-gap: 5px;
 `;
 
-const CoverTable = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, auto);
-  column-gap: 5px;
-`;
-
 const Wrapper = styled.div`
   width: 1020px;
   display: flex;
@@ -45,11 +39,11 @@ const SubmitButton = styled.button`
   }
 `;
 
-const NewClaimContainer = styled.div`
+const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
 
-export { Row, HeaderRow, Table, Wrapper, SubmitButton, NewClaimContainer, CoverTable };
+export { Row, HeaderRow, Table, Wrapper, SubmitButton, Container };

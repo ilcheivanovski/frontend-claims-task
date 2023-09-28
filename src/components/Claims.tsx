@@ -5,7 +5,7 @@ import { number, object, string } from "yup";
 import { deleteAsync, postJsonAsync } from "../services/api";
 import {
   HeaderRow,
-  NewClaimContainer,
+  Container,
   Row,
   SubmitButton,
   Table,
@@ -75,28 +75,31 @@ export const Claims = () => {
         }}
       >
         <Form>
-          <NewClaimContainer>
-            <InputField label="Name" id="name" name="name" />
+          <Container>
+            <InputField label="Name" id="name" name="name" data-testid="name" />
             <SelectInputField
+              data-testid="type"
               label="Type"
               id="type"
               name="type"
               options={CLAIM_TYPES?.map((c) => ({ value: c, label: c }))}
             />
             <InputField
+              data-testid="cost"
               label="Cost"
               id="cost"
               name="damageCost"
               type="number"
             />
             <SelectInputField
+              data-testid="coverId"
               label="CoverId"
               id="coverId"
               name="coverId"
               options={covers?.map((c) => ({ value: c.id, label: c.id }))}
             />
             <SubmitButton type="submit">Submit new Claim</SubmitButton>
-          </NewClaimContainer>
+          </Container>
         </Form>
       </Formik>
       {!hasClaims && <div>No Claims Found</div>}
