@@ -103,12 +103,6 @@ export const Covers = () => {
               name="type"
               options={coverTypes?.map((c) => ({ value: c, label: c }))}
             />
-            <InputField
-              id="premium"
-              label="Premium"
-              name="premium"
-              type="number"
-            />
             <SubmitButton type="submit">Submit new Cover</SubmitButton>
           </Container>
         </Form>
@@ -135,7 +129,10 @@ export const Covers = () => {
               <div>
                 <button
                   type="button"
-                  onClick={async () => await deleteAsync(`Covers/${cover.id}`)}
+                  onClick={async () => {
+                    await deleteAsync(`Covers/${cover.id}`);
+                    mutate(COVERS);
+                  }}
                 >
                   Delete
                 </button>
