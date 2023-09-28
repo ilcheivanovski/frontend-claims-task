@@ -10,7 +10,6 @@ export function ToDateOnly(currentDate: Date) {
     .padStart(2, "0")}`;
 
   // Log or use the formatted date as needed
-  console.log(formattedDate);
 
   return formattedDate;
 }

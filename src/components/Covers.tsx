@@ -51,7 +51,10 @@ const CoversSchema = object().shape({
 
 export const Covers = () => {
   const { data } = useSWR(COVERS);
+  const { data: coverTypesResponse } = useSWR(COVER_TYPES);
+
   const covers = data?.covers;
+  const coverTypes: string[] = coverTypesResponse || [];
 
   if (!covers) return <span>Loading...</span>;
 
@@ -98,7 +101,7 @@ export const Covers = () => {
               label="Type"
               id="type"
               name="type"
-              options={COVER_TYPES?.map((c) => ({ value: c, label: c }))}
+              options={coverTypes?.map((c) => ({ value: c, label: c }))}
             />
             <InputField
               id="premium"

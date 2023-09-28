@@ -38,9 +38,11 @@ const ClaimsSchema = object().shape({
 export const Claims = () => {
   const { data } = useSWR(CLAIMS);
   const { data: coverData } = useSWR(COVERS);
+  const { data: claimTypesResponse } = useSWR(CLAIM_TYPES);
 
   const covers: Cover[] = coverData?.covers;
   const claims = data?.claims;
+  const claimTypes: string[] = claimTypesResponse || [];
 
   if (!claims) {
     return <span>Loading...</span>;
@@ -62,7 +64,6 @@ export const Claims = () => {
         validationSchema={ClaimsSchema}
         validateOnMount={true}
         onSubmit={async (values: Claim) => {
-          console.log({ values });
           const payload = {
             ...values,
             coverId: values.coverId.value,
@@ -82,7 +83,7 @@ export const Claims = () => {
               label="Type"
               id="type"
               name="type"
-              options={CLAIM_TYPES?.map((c) => ({ value: c, label: c }))}
+              options={claimTypes?.map((c) => ({ value: c, label: c }))}
             />
             <InputField
               data-testid="cost"
