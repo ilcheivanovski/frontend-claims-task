@@ -22,10 +22,13 @@ const Navbar = styled.div`
   height: 50px;
 `;
 
-const NavLinkItem = styled(Link)`
+const NavLinkItem = styled(NavLink)`
   font-weight: bolder;
   padding: 10px;
   &:hover {
+    background-color: white;
+  }
+  &.active {
     background-color: white;
   }
 `;
@@ -38,30 +41,32 @@ function App() {
   return (
     <Router>
       <Navbar>
-        <NavLink
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
+        <NavLinkItem
           to="/"
-        >
-          <NavLinkItem to="/">Home</NavLinkItem>
-        </NavLink>
-        <NavLink
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "active" : ""
           }
+        >
+          Home
+        </NavLinkItem>
+
+        <NavLinkItem
           to="/claims"
-        >
-          <NavLinkItem to="/claims">Claims</NavLinkItem>
-        </NavLink>
-        <NavLink
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "active" : ""
           }
-          to="/covers"
         >
-          <NavLinkItem to="/covers">Covers</NavLinkItem>
-        </NavLink>
+          Claims
+        </NavLinkItem>
+
+        <NavLinkItem
+          to="/covers"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          Covers
+        </NavLinkItem>
       </Navbar>
       <Content>
         <Routes>
