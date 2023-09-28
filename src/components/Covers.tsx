@@ -1,6 +1,5 @@
 import useSWR, { mutate } from "swr";
-import { Field, Form, Formik } from "formik";
-import { v4 as uuidv4 } from "uuid";
+import { Form, Formik } from "formik";
 import { date, object, ref, string } from "yup";
 
 import { deleteAsync, postJsonAsync } from "../services/api";
@@ -60,7 +59,7 @@ export const Covers = () => {
     <Wrapper>
       <Formik
         initialValues={{
-          id: uuidv4(),
+          id: "",
           startDate: "",
           endDate: "",
           type: undefined,
