@@ -16,7 +16,7 @@ import { SelectInputField } from "../common/Select";
 import { CLAIMS, CLAIM_TYPES, COVERS } from "../constants/constants";
 import { Claim, ClaimModel, Cover } from "../interfaces/models";
 
-const ClaimsSchema = object().shape({
+export const ClaimsSchema = object().shape({
   name: string().required("Name is required.").max(25),
   type: object().test(
     "type-required",
