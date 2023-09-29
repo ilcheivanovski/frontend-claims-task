@@ -12,7 +12,7 @@ import {
   Table,
 } from "../styles-components/components/Claims";
 import InputField from "../common/InputField";
-import { ToDateOnly as toDateOnly } from "../utils/utils";
+import { removeOneDay, ToDateOnly as toDateOnly } from "../utils/utils";
 import { COVERS, COVER_TYPES } from "../constants/constants";
 import { SelectInputField } from "../common/Select";
 import { Cover, CoverModel } from "../interfaces/models";
@@ -20,21 +20,18 @@ import { Cover, CoverModel } from "../interfaces/models";
 const CoversSchema = object().shape({
   startDate: date()
     .required("Start Date is required")
-    .min(
-      new Date(new Date().setDate(new Date().getDate() - 1)),
-      "Start Date cannot be in the past"
-    )
+    .min(removeOneDay(new Date()), "Start Date cannot be in the past")
     .test(
       "one-year-difference",
       "Date range cannot exceed one year",
       function (value) {
         const startDate = new Date(value);
-        const endDate = new Date(this.parent.endDate);
+        const endDate = removeOneDay(new Date(this.parent.endDate));
 
         const oneYearFromStartDate = new Date(startDate);
         oneYearFromStartDate.setFullYear(startDate.getFullYear() + 1);
 
-        return endDate <= oneYearFromStartDate;
+        return endDate < oneYearFromStartDate;
       }
     ),
   endDate: string().required("End date is required."),

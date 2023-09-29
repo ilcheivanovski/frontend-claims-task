@@ -13,3 +13,8 @@ export function ToDateOnly(currentDate: Date) {
 
   return formattedDate;
 }
+
+export function removeOneDay(date: Date) {
+  return new Date(new Date(date).setDate(new Date(date).getDate() - 1));
+}
+
