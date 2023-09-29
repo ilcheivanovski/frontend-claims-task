@@ -15,14 +15,7 @@ import InputField from "../common/InputField";
 import { ToDateOnly as toDateOnly } from "../utils/utils";
 import { COVERS, COVER_TYPES } from "../constants/constants";
 import { SelectInputField } from "../common/Select";
-
-export interface Cover {
-  id: string;
-  startDate: string;
-  endDate: string;
-  type?: { name: string; value: string };
-  premium: number;
-}
+import { Cover, CoverModel } from "../interfaces/models";
 
 const CoversSchema = object().shape({
   startDate: date()
@@ -45,7 +38,17 @@ const CoversSchema = object().shape({
       }
     ),
   endDate: string().required("End date is required."),
-  type: object().required("Type is required."),
+  type: object().test(
+    "type-required",
+    "Type is required",
+    function (value: any) {
+      if (!value?.label || !value?.value) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  ),
   premium: string().required("Premium is required."),
 });
 
@@ -53,7 +56,7 @@ export const Covers = () => {
   const { data } = useSWR(COVERS);
   const { data: coverTypesResponse } = useSWR(COVER_TYPES);
 
-  const covers = data?.covers;
+  const covers: Cover[] = data?.covers;
   const coverTypes: string[] = coverTypesResponse || [];
 
   if (!covers) return <span>Loading...</span>;
@@ -67,10 +70,10 @@ export const Covers = () => {
           id: "",
           startDate: "",
           endDate: "",
-          type: undefined,
+          type: { label: "", value: "" },
           premium: 0,
         }}
-        onSubmit={async (values: Cover) => {
+        onSubmit={async (values: CoverModel) => {
           const payload = {
             ...values,
             type: values?.type?.value,

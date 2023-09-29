@@ -12,25 +12,37 @@ import {
   Wrapper,
 } from "../styles-components/components/Claims";
 import InputField from "../common/InputField";
-import { Cover } from "./Covers";
 import { SelectInputField } from "../common/Select";
 import { CLAIMS, CLAIM_TYPES, COVERS } from "../constants/constants";
-
-interface Claim {
-  id: string;
-  name: string;
-  type: { name: string; value: string };
-  coverId: { name: string; value: string };
-  created: string;
-  damageCost: number;
-}
+import { Claim, ClaimModel, Cover } from "../interfaces/models";
 
 const ClaimsSchema = object().shape({
   name: string().required("Name is required.").max(25),
-  type: object().required("Type is required."),
-  coverId: object().required("coverId is required."),
+  type: object().test(
+    "type-required",
+    "Type is required",
+    function (value: any) {
+      if (!value?.label || !value?.value) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  ),
+  coverId: object().test(
+    "coverId-required",
+    "CoverId is required",
+    function (value: any) {
+      if (!value?.label || !value?.value) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  ),
   damageCost: number()
     .typeError("Damage Cost must be a number")
+    .min(1, "Must bigger that 0")
     .max(100000, "Damage Cost cannot exceed 100.000")
     .required("Damage Cost is required"),
 });
@@ -41,7 +53,7 @@ export const Claims = () => {
   const { data: claimTypesResponse } = useSWR(CLAIM_TYPES);
 
   const covers: Cover[] = coverData?.covers;
-  const claims = data?.claims;
+  const claims: Claim[] = data?.claims;
   const claimTypes: string[] = claimTypesResponse || [];
 
   if (!claims) {
@@ -56,14 +68,14 @@ export const Claims = () => {
         initialValues={{
           id: "",
           name: "",
-          type: { name: "", value: "" },
-          coverId: { name: "", value: "" },
+          type: { label: "", value: "" },
+          coverId: { label: "", value: "" },
           created: "",
-          damageCost: 0,
+          damageCost: 1,
         }}
         validationSchema={ClaimsSchema}
         validateOnMount={true}
-        onSubmit={async (values: Claim) => {
+        onSubmit={async (values: ClaimModel) => {
           const payload = {
             ...values,
             coverId: values.coverId.value,
@@ -79,7 +91,6 @@ export const Claims = () => {
           <Container>
             <InputField label="Name" id="name" name="name" data-testid="name" />
             <SelectInputField
-              data-testid="type"
               label="Type"
               id="type"
               name="type"
@@ -120,7 +131,7 @@ export const Claims = () => {
               <div>{claim.type}</div>
               <div>{claim.damageCost}</div>
               <div>{claim.coverId}</div>
-              <div>{claim.created}</div>
+              <div>{new Date(claim.created).toLocaleDateString()}</div>
               <div>
                 <button
                   type="button"
