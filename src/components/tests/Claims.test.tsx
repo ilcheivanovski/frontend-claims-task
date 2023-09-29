@@ -5,7 +5,7 @@ import {
   waitFor,
   queryByText,
 } from "@testing-library/react";
-import { Claims } from "../Claims";
+import { ClaimsPage } from "../Claims";
 
 describe("Claims Component", () => {
   // Mock the useSWR hook to provide test data
@@ -28,7 +28,7 @@ describe("Claims Component", () => {
   }));
 
   it("renders the component", () => {
-    const { getByText } = render(<Claims />);
+    const { getByText } = render(<ClaimsPage />);
 
     // Check if the component renders loading initially
     expect(getByText("Loading...")).toBeInTheDocument();

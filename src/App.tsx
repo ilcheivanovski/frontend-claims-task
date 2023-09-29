@@ -7,9 +7,10 @@ import {
   Routes,
 } from "react-router-dom";
 import styled from "styled-components";
-import { Claims } from "./components/Claims";
-import { Covers } from "./components/Covers";
-import { Home } from "./components/Home";
+import { ClaimsPage } from "./components/Claims";
+import { CoversPage } from "./components/Covers";
+import { HomePage } from "./components/Home";
+import { CoverPage } from "./components/Cover";
 
 const Navbar = styled.div`
   display: flex;
@@ -70,9 +71,10 @@ function App() {
       </Navbar>
       <Content>
         <Routes>
-          <Route path="/claims" element={<Claims />} />
-          <Route path="/covers" element={<Covers />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/claims" element={<ClaimsPage />} />
+          <Route path="/covers" element={<CoversPage />} />
+          <Route path="/covers/:coverId" element={<CoverPage />} />
         </Routes>
       </Content>
     </Router>

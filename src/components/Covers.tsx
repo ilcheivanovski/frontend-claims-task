@@ -49,7 +49,7 @@ const CoversSchema = object().shape({
   premium: string().required("Premium is required."),
 });
 
-export const Covers = () => {
+export const CoversPage = () => {
   const { data } = useSWR(COVERS);
   const { data: coverTypesResponse } = useSWR(COVER_TYPES);
 

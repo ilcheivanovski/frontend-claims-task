@@ -15,6 +15,12 @@ const Table = styled.div`
   column-gap: 5px;
 `;
 
+const ClaimTable = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  column-gap: 5px;
+`;
+
 const Wrapper = styled.div`
   width: 1020px;
   display: flex;
@@ -46,4 +52,4 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-export { Row, HeaderRow, Table, Wrapper, SubmitButton, Container };
+export { Row, HeaderRow, Table, ClaimTable, Wrapper, SubmitButton, Container };

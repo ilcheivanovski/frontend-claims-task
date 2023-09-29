@@ -1,6 +1,7 @@
 import useSWR, { mutate } from "swr";
 import { Form, Formik } from "formik";
 import { number, object, string } from "yup";
+import { useNavigate } from "react-router-dom";
 
 import { deleteAsync, postJsonAsync } from "../services/api";
 import {
@@ -8,8 +9,8 @@ import {
   Container,
   Row,
   SubmitButton,
-  Table,
   Wrapper,
+  ClaimTable,
 } from "../styles-components/components/Claims";
 import InputField from "../common/InputField";
 import { SelectInputField } from "../common/Select";
@@ -47,7 +48,8 @@ export const ClaimsSchema = object().shape({
     .required("Damage Cost is required"),
 });
 
-export const Claims = () => {
+export const ClaimsPage = () => {
+  const navigate = useNavigate();
   const { data } = useSWR(CLAIMS);
   const { data: coverData } = useSWR(COVERS);
   const { data: claimTypesResponse } = useSWR(CLAIM_TYPES);
@@ -116,13 +118,14 @@ export const Claims = () => {
       </Formik>
       {!hasClaims && <div>No Claims Found</div>}
       {hasClaims && (
-        <Table>
+        <ClaimTable>
           <HeaderRow>
             <div>Name</div>
             <div>Type</div>
             <div>Cost</div>
             <div>CoverId</div>
             <div>Created</div>
+            <div>Cover</div>
             <div>Delete</div>
           </HeaderRow>
           {claims.map((claim: any) => (
@@ -136,6 +139,16 @@ export const Claims = () => {
                 <button
                   type="button"
                   onClick={async () => {
+                    navigate(`/covers/${claim.coverId}`);
+                  }}
+                >
+                  Cover
+                </button>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={async () => {
                     await deleteAsync(`Claims/${claim.id}`);
                     mutate(CLAIMS);
                   }}
@@ -145,7 +158,7 @@ export const Claims = () => {
               </div>
             </Row>
           ))}
-        </Table>
+        </ClaimTable>
       )}
     </Wrapper>
   );
